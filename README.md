@@ -1,112 +1,134 @@
-# 🏥 **Health-Stack**  
-An **open-source hospital management system**, designed for **flexibility, security, and efficiency**.
+# 🏥 **Health-Stack DApp**  
+An **open-source hospital management system**, now built on an **Ethereum-compatible ledger**, combining modular governance with cryptographic data integrity.
 
 ---
 
-## 🚀 **Core Features**  
-(Modules planned for future integration)  
-✅ **Patient Management** – Registration, medical history, appointments, billing  
-✅ **Doctor & Staff Management** – Scheduling, permissions, payroll  
-✅ **Medical Records** – Secure storage, compliance with health regulations  
-✅ **Billing & Insurance** – Automated invoicing, insurance claim processing  
-✅ **Inventory Management** – Medical supplies & pharmaceuticals tracking  
-✅ **Laboratory & Test Results** – Integration with diagnostic tools  
-✅ **Communication Module** – Secure messaging between doctors, patients, and staff  
+## 🚀 **Core Modules** (Planned Smart Contracts)  
+✅ `PatientRegistry.sol` – Register, update, and verify patient data  
+✅ `DoctorRegistry.sol` – Manage doctor identities, roles, and affiliations  
+✅ `MedicalRecords.sol` – Immutable access to health records (IPFS or zkStorage integration suggested)  
+✅ `Billing.sol` – Smart invoice generation and insurance claim logic  
+✅ `PharmaInventory.sol` – Track medicine batches on-chain  
+✅ `LabResults.sol` – On-chain test metadata linked to off-chain storage  
+✅ `MessageHub.sol` – Encrypted peer-to-peer comms between patients and doctors (opt-in)
 
 ---
 
-## 🛠 **Getting Started with Patient Management**  
+## 🛠️ **Getting Started Locally**
 
-### 1️⃣ **Clone & Deploy PocketBase**  
+### 1️⃣ Initialize Smart Contract Project
+
 ```bash
-git clone https://github.com/petrusjohannesmaas/health-stack.git
-cd health-stack
-docker-compose up -d
+mkdir health-stack-dapp && cd health-stack-dapp
+npm init -y
+npm install --save-dev hardhat
+npx hardhat
 ```
-Then, open **`http://localhost:8090/_/`** to access the **PocketBase admin panel**.
+
+Select "Create a basic sample project"
+
+```bash
+npm install --save-dev @nomicfoundation/hardhat-toolbox @openzeppelin/contracts
+```
 
 ---
 
-## 📦 **Dockerized Setup**  
+### 2️⃣ Besu Integration via `hardhat.config.js`
 
-### **Docker Compose Configuration (`docker-compose.yml`)**  
-```yaml
-version: '3'
-services:
-  pocketbase:
-    image: pocketbase/pocketbase:latest
-    container_name: healthstack_pocketbase
-    ports:
-      - "8090:8090"
-    volumes:
-      - ./pocketbase_data:/pb_data  # Persist healthcare records
-    restart: unless-stopped
+```js
+require("@nomicfoundation/hardhat-toolbox");
+
+module.exports = {
+  defaultNetwork: "besu",
+  networks: {
+    besu: {
+      url: "http://localhost:8545", // Besu RPC endpoint
+      accounts: ["0xPRIVATE_KEY"], // Replace with unlocked account
+    },
+  },
+  solidity: "0.8.20",
+};
 ```
-- **PocketBase runs inside a container** with all patient records stored securely.  
-- **Data persists** even when restarting the container.  
 
 ---
 
-## 📜 **PocketBase Schema for Patient Management**  
-This schema ensures **structured patient records** with potential future integration.  
+## ✍️ **Sample Contract: PatientRegistry.sol**
 
-### **Patients Table (`patients.json`)**
-```json
-{
-    "name": "patients",
-    "schema": [
-        { "name": "full_name", "type": "text", "required": true },
-        { "name": "date_of_birth", "type": "date", "required": true },
-        { "name": "gender", "type": "select", "options": ["Male", "Female", "Other"], "required": true },
-        { "name": "contact_info", "type": "json", "required": true },
-        { "name": "medical_history", "type": "json", "required": false },
-        { "name": "current_conditions", "type": "json", "required": false },
-        { "name": "insurance_provider", "type": "text", "required": false },
-        { "name": "billing_status", "type": "select", "options": ["Pending", "Paid", "Overdue"], "required": false }
-    ]
-}
-```
-- **JSON-based schema** for easy PocketBase import.  
-- **Medical history & conditions stored in structured JSON** for flexibility.  
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
 
----
+contract PatientRegistry {
+    struct Patient {
+        string fullName;
+        string dob;
+        string gender;
+        string contactInfo;
+    }
 
-## 🔗 **Potential Future Integrations**  
-🔹 **Appointments Module** (Linked via `patient_id`)  
-🔹 **Billing & Insurance Module** (Linked via `insurance_provider`)  
-🔹 **Doctor Assignments Module** (Mapping to `doctor_id`)  
+    mapping(address => Patient) public patients;
 
-### **Example Integration: Doctor Assignments (`doctor_assignments.json`)**  
-```json
-{
-    "name": "doctor_assignments",
-    "schema": [
-        { "name": "patient_id", "type": "relation", "collection": "patients", "required": true },
-        { "name": "doctor_id", "type": "relation", "collection": "doctors", "required": true },
-        { "name": "visit_date", "type": "date", "required": true },
-        { "name": "notes", "type": "text", "required": false }
-    ]
+    event Registered(address indexed patientAddr, string fullName);
+
+    function registerPatient(
+        string memory _fullName,
+        string memory _dob,
+        string memory _gender,
+        string memory _contactInfo
+    ) public {
+        patients[msg.sender] = Patient(_fullName, _dob, _gender, _contactInfo);
+        emit Registered(msg.sender, _fullName);
+    }
+
+    function getPatient(address _addr) public view returns (Patient memory) {
+        return patients[_addr];
+    }
 }
 ```
 
 ---
 
-## 📊 **How It Works**  
-✅ **Admin users manage patient records** via PocketBase UI  
-✅ **Patients can be assigned to doctors, tracked across appointments**  
-✅ **Billing and medical history are structured for future interoperability**  
+## 🧪 **Deploy with Hardhat**
+
+`scripts/deploy.js`:
+
+```js
+async function main() {
+  const PatientRegistry = await ethers.getContractFactory("PatientRegistry");
+  const contract = await PatientRegistry.deploy();
+  await contract.deployed();
+  console.log(`Deployed to: ${contract.address}`);
+}
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+```
+
+Deploy:
+
+```bash
+npx hardhat run scripts/deploy.js --network besu
+```
 
 ---
 
-## 🎯 **Next Steps**  
-🔹 Expand **appointments & scheduling module**  
-🔹 Integrate **billing & insurance processing**  
-🔹 Improve **multi-language & localization support**  
+## 🧬 **Evolving the Stack**
+
+| Module            | Smart Contract        | Off-chain Partner                    |
+|------------------|-----------------------|--------------------------------------|
+| Patients          | PatientRegistry.sol   | React+Web3 UI + Hardhat console      |
+| Medical Records   | MedicalRecords.sol    | IPFS / zkSnarks / Lighthouse         |
+| Billing           | Billing.sol           | Insurance API or stablecoin logic    |
+| Inventory         | PharmaInventory.sol   | Manufacturer signatures, QR tracking |
+| Messaging         | MessageHub.sol        | Libp2p, Waku, or Whisper              |
 
 ---
 
-## 📜 **License**  
-GNU General Public License v3.0  
-See [LICENSE](./LICENSE)  
+## 🔐 **Optional Enhancements**
+- Integrate Besu **private transaction manager (Orion)** for confidential patient record logs  
+- Use zk-proofs for **anonymized medical statistics**  
+- Layer on **Role-Based Access Control** with OpenZeppelin extensions  
+- Move schema definitions into Solidity storage structs with off-chain indexing  
 
 ---
