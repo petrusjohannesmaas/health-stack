@@ -1,21 +1,21 @@
-# 🛣️ Health Stack Roadmap
+# 🛣️ Health Stack OS Roadmap
 
-### Theoretical starting point:
+### Starting point:
 - 🏥 No existing hospital systems (paper or digital)
 - 🧑‍⚕️ No established staff—nurses, admins, or clinicians will be onboarded
 - 🧰 No physical infrastructure yet defined beyond a facility shell (or basic layout)
 - ⚙️ Our software must guide, train, and enforce best practices from day one
 
-So instead of just software, I'm building a **hospital-in-a-box** platform that boots up a fully functional health facility—digitally and operationally.
+So instead of just software, we're building a **hospital-in-a-box** platform that boots up a fully functional health facility—digitally and operationally.
 
 ---
 
 ### **Phase 0: Operating Philosophy & Service Blueprint**
 Define what kind of facility we’re even creating:
-- [1. Philosophy & Principles](philosophy_and_principles.md)
-- [2. Core Health Stack OS Modules](core_modules.md)
-- [3. Patient States & Intake Flow](patient_states_and_intake_flow.md)
-- [4. Roles & Access](roles_and_access.md)
+- Emergency-focused? Maternity-heavy? Chronic care? General inpatient?
+- Model patient flow maps + states from intake to discharge
+- Define core modules of the stack
+- Define roles: who does what, what skills are expected
 
 ---
 
@@ -60,7 +60,7 @@ Essential for high-stakes coordination:
 
 ---
 
-## 🧭 Strategic Outcome
+### 🧭 Strategic Outcome
 
 By the end of this rollout, we’ll have:
 - A guided digital framework for new staff to onboard and deliver care effectively  
@@ -68,5 +68,3 @@ By the end of this rollout, we’ll have:
 - A blueprint that could replicate this hospital model elsewhere—franchise-style or NGO-deployable  
 
 ---
-
-Want to dive into a naming convention for this “hospital OS”? Or should we start building out the schemas for staff, roles, and patient flows as a next step?
