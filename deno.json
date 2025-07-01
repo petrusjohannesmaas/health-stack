@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "ethers": "npm:ethers@6"
+  },
+  "tasks": {
+    "deploy": "deno run --allow-read --allow-net deploy.ts"
+  }
+}
