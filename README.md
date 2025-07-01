@@ -12,15 +12,16 @@ So instead of just software, I'm building a **hospital-in-a-box** platform that 
 
 ### **Phase 0: Operating Philosophy & Service Blueprint**
 Define what kind of facility we’re even creating:
-- [1. Philosophy & Principles](philosophy_and_principles.md)
-- [2. Core Health Stack OS Modules](core_modules.md)
-- [3. Patient States & Intake Flow](patient_states_and_intake_flow.md)
-- [4. Roles & Access](roles_and_access.md)
+- [1. Philosophy & Principles](/docs/philosophy_and_principles.md)
+- [2. Core Health Stack OS Modules](/docs/core_modules.md)
+- [3. Patient States & Intake Flow](/docs/patient_states_and_intake_flow.md)
+- [4. Roles & Access](/docs/roles_and_access.md)
 
 ---
 
 ### **Phase 1: Digital Operating System Core**
 Create the system that will guide and train people from day one:
+- [5. Development Setup](/docs/development_setup.md)
 - **Identity System**: Develop QR based identity system
 - **Develop Dashboards**: Build core modules interfaces and implement access policies
 - **Onboarding Content**: Walks staff through first login and explains role functions

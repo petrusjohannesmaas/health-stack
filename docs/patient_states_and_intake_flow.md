@@ -1,4 +1,4 @@
-# Patient States and Intake Flow
+# 3. Patient States and Intake Flow
 
 ### 🔁 Patient States
 
@@ -98,4 +98,4 @@ Core of the stay—loops daily through:
 
 ---
 
-Next: [Roles and Access](roles_and_access.md)
+Next: [4. Roles and Access](roles_and_access.md)
