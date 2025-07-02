@@ -1,6 +1,10 @@
-# 3. Patient States and Intake Flow
+---
+draft: true
+title: 'Patient States & Intake Flow'
+weight: 3
+---
 
-### 🔁 Patient States
+### 🔁 State Table
 
 
 | **State**                 | **Triggered By**                                   | **Next Possible States**                    |
@@ -97,5 +101,3 @@ Core of the stay—loops daily through:
 - Post-discharge call/reminder set (optional)
 
 ---
-
-Next: [4. Roles and Access](roles_and_access.md)

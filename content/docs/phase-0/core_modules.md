@@ -1,4 +1,8 @@
-# 2. Core Health Stack OS Modules
+---
+draft: true
+title: 'Core Modules'
+weight: 2
+---
 
 #### 1. **Patient Intake & Registration**
 - Patient demographics

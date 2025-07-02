@@ -1,4 +1,8 @@
-# 1. Philosophy & Principles
+---
+draft: true
+title: 'Philosophy & Principles'
+weight: 1
+---
 
 ### 🌱 Core Principles
 - **Practicality** — solutions must work in real-world, resource-constrained settings  
@@ -39,5 +43,3 @@ By designing for general inpatients, we can:
 - Onboard new staff into **essential clinical protocols** without requiring subspecialist training  
 
 ---
-
-Next: [2. Core Health Stack OS Modules](core_modules.md)

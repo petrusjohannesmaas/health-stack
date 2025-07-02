@@ -1,4 +1,8 @@
-# Development Setup
+---
+draft: true
+title: 'Infrastructure'
+weight: 2
+---
 
 
 | Component   | Description |
