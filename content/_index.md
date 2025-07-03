@@ -1,75 +1,70 @@
 ---
-draft: true
+draft: false
 title: 'Welcome to Health Stack OS'
 weight: 1
 ---
 
-_Your digital launchpad for building modern clinics from scratch_
+_Your digital launchpad for delivering transparent, modular care from day one_
 
-Whether you're spinning up a rural outpost, mobile unit, or an entire health network — **Health Stack OS** gives you the full-stack foundation to go from _zero to care delivery_ without legacy systems or specialized teams.
+Whether you're launching a rural clinic, mobile unit, or an experimental pilot site, **Health Stack OS** gives you the tools to go from _intake to discharge_—without legacy vendors or complex infrastructure.
 
 ---
 
 ## 🧩 What Is It?
 
-**Health Stack OS** is more than software — it's a playbook for healthcare infrastructure.
+**Health Stack OS** is a modular, off-chain-first health coordination system—designed to work in the real world before it's ever decentralized.
 
-> _“From a facility shell to structured care delivery — Health Stack OS is your launchpad for building modern healthcare systems anywhere.”_
+> _“From facility shell to care coordination, this is your zero-to-launch health stack.”_
 
-It includes everything you need to:
-- 🧭 **Define** clinical strategies, care pathways, and patient access
-- 🧑‍🏫 **Onboard** new staff with built-in training and walkthroughs
-- 🖥 **Deliver** care via role-based dashboards and digital workflows
-- 🏥 **Coordinate** infrastructure, inventory, and care in real-time
-
----
-
-## 🔐 Built on Trust: The Blockchain Layer
-
-_Transparency, auditability, and resilient data storage by design._
-
-We leverage decentralized tech to make operations **tamper-proof**, **offline-resilient**, and **trustable by default**.
-
-### Core Technologies:
-- **Hyperledger Besu** — powers permissions, smart contracts, and audit trails
-- **IPFS** — secures clinical data across distributed nodes with content addressing
-
-These tools work together to create a **verifiable system of record** for your entire operation.
+It gives you everything you need to:
+- 🧭 **Define** care workflows and state transitions (Intake → Discharge)
+- 👩‍⚕️ **Assign** roles and responsibilities across clinical and admin staff
+- 📋 **Track** patients through structured state machines and audit trails
+- 🛠 **Build** a sustainable foundation for future blockchain integrations
 
 ---
 
-## 🌱 Coming Soon: Incentives & Governance
+## 🔐 A Minimal Blockchain Core
 
-_Align care outcomes with real rewards._
+_Used only where it counts._
 
-The next evolution of Health Stack OS will include:
-- 💸 **Contributor rewards** via token-based bounties and grants  
-- 🧑‍⚖️ **DAO governance** to evolve protocols and regional policies  
-- 📊 **Care quality incentives**, linked to verifiable audits  
+Health Stack OS uses a **single on-chain contract** to:
+- Accept transparent donations tied to facilities
+- Disburse funds based on off-chain, verified care milestones
+- Emit public logs of impact
 
-We're building not just systems — but **self-governing, sustainable health ecosystems**.
-
----
-
-## ✅ Why It Matters
-
-In fragile or fast-moving environments, Health Stack OS helps teams launch with:
-- 🔧 **Minimal infrastructure**
-- 🕒 **Rapid time-to-operation**
-- 🔍 **Built-in clarity and accountability**
-
-Whether you’re a humanitarian org, health startup, or regional leader — this stack gives you a **repeatable model for rapid, scalable care delivery**.
+Nothing more—until you’re ready for incentives, staking, or DAO governance.
 
 ---
 
-## 👉 What’s Next?
+## 🧱 Built for Simplicity First
 
-**Start exploring the stack**, contribute to the vision, or deploy your first pilot.
+All core patient logic, staff roles, and transitions live **off-chain**, for speed, privacy, and modular control.
 
-- [🌐 Project Overview](#)  
-- [📖 Documentation](#)  
-- [📬 Contact & Collaboration](#)  
-
-> _“Code is just the beginning — Health Stack OS is a commitment to rethinking what care delivery can look like, anywhere on earth.”_
+Key benefits:
+- 🔧 **Local-first** design—works offline and boots instantly
+- 🕒 **Faster setup** with minimal infrastructure
+- 🌍 **Globally adaptable** for diverse clinic models and workflows
 
 ---
+
+## 🌱 The Road Ahead
+
+This is just the beginning. Health Stack OS is growing to support:
+- 📊 **Incentivized funding** tied to real outcomes  
+- 🧑‍⚖️ **DAO-led governance** for trust and autonomy  
+- 🔄 **Interoperability with DeFi and public donors**  
+
+We’re building not just tools—but resilient ecosystems around them.
+
+---
+
+## 👉 Ready to Dive In?
+
+Explore the system. Fork the roadmap. Or launch your own health pilot.
+
+- [🧭 Project Overview](#)
+- [📖 Architecture Docs](#)
+- [🤝 Partner with Us](#)
+
+> _“In a world where care is often delayed by design, Health Stack OS exists to accelerate trust, care, and accountability—one patient at a time.”_

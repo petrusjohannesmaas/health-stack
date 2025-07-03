@@ -1,15 +1,8 @@
----
-draft: true
-title: 'Infrastructure'
-weight: 2
----
-
-
-| Component   | Description |
-|------------|-------------|
-| **Besu**   | Runs single-node dev network (Clique consensus, instant finality) |
-| **IPFS**   | Local daemon with HTTP API (`localhost:5001`) |
-| **Node.js** | Your logic layer – identity creation, CID publishing, smart contract calls, QR output |
+| Component   | Description                                                                         |
+| ----------- | ----------------------------------------------------------------------------------- |
+| **Besu**    | Runs a single-node Ethereum dev network with Clique consensus and preloaded account |
+| **IPFS**    | Local IPFS daemon with private swarm key (secured, local peer network)              |
+| **Node.js** | Your backend logic for publishing identities, CIDs, and interacting with contracts  |
 
 ---
 
@@ -18,54 +11,120 @@ weight: 2
 ```
 health-stack-os/
 ├── docker-compose.yml
-├── swarm.key
+├── swarm.key                  # For private IPFS swarm
+├── besu-config/
+│   ├── nodekey                # Besu node's private key
+│   └── genesis.json           # Clique genesis file with preloaded ETH
 └── data/
-    ├── besu/
-    └── ipfs/
+    ├── besu/                  # Besu's chain data
+    └── ipfs/                  # IPFS repo data
 ```
 
 ---
 
-## 🔐 `swarm.key` (Private IPFS Network Key)
+## 🔐 1. Create `swarm.key` (IPFS Private Network)
 
-Create this file at `health-stack-os/swarm.key`:
+Create a new swarm key (or use the example below):
 
-```
-/key/swarm/psk/1.0.0/
-/base16/
-f1f2f3f4f5f6f7f8f9fafbfcfdfeff00112233445566778899aabbccddeeff0011
-```
-
-> Or generate a new one:
 ```bash
+mkdir -p health-stack-os
+cd health-stack-os
 echo -e "/key/swarm/psk/1.0.0/\n/base16/\n$(openssl rand -hex 32)" > swarm.key
 ```
 
 ---
 
-## 🧩 `docker-compose.yml`
+## 🔑 2. Create Besu Account and Genesis
+
+### 📂 Create a `besu-config/` folder:
+
+```bash
+mkdir -p besu-config
+```
+
+### 🧬 Generate a node key:
+
+```bash
+docker run --rm -v $(pwd)/besu-config:/keys hyperledger/besu:latest \
+  besu operator generate-blockchain-config \
+  --config-file=/keys/config.json \
+  --to=/keys
+```
+
+Create `besu-config/config.json` with the following contents:
+
+```json
+{
+  "genesis": {
+    "config": {
+      "chainId": 1337,
+      "clique": {
+        "period": 1,
+        "epoch": 30000
+      }
+    },
+    "nonce": "0x0",
+    "timestamp": "0x58ee40ba",
+    "extraData": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "gasLimit": "0x47b760",
+    "difficulty": "0x1",
+    "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "coinbase": "0x0000000000000000000000000000000000000000",
+    "alloc": {
+      "0x0000000000000000000000000000000000000001": {
+        "balance": "0xD3C21BCECCEDA1000000"
+      }
+    }
+  },
+  "blockchain": {
+    "nodes": [
+      {
+        "privateKeyFile": "nodekey"
+      }
+    ]
+  }
+}
+```
+
+> 👆 This preloads `0x0000000000000000000000000000000000000001` with **1 million ETH**.
+
+After running the command above, your `besu-config/` will contain:
+
+* `nodekey`
+* `genesis.json` (auto-generated)
+
+---
+
+## 🧩 3. `docker-compose.yml`
+
+Save this in `health-stack-os/docker-compose.yml`:
 
 ```yaml
----
+version: '3.8'
 services:
   besu:
     image: hyperledger/besu:latest
     container_name: besu-node
     ports:
-      - "8545:8545"   # HTTP JSON-RPC
-      - "8546:8546"   # WebSocket
-      - "30303:30303" # P2P
+      - "8545:8545"
+      - "8546:8546"
+      - "30303:30303"
     volumes:
       - ./data/besu:/var/lib/besu
+      - ./besu-config:/config
     command: >
       --network=dev
       --data-path=/var/lib/besu
+      --genesis-file=/config/genesis.json
+      --node-private-key-file=/config/nodekey
       --rpc-http-enabled
       --rpc-http-host=0.0.0.0
       --rpc-http-port=8545
       --rpc-ws-enabled
       --rpc-ws-port=8546
       --host-allowlist=*
+      --miner-enabled
+      --miner-coinbase=0x0000000000000000000000000000000000000001
 
   ipfs:
     image: ipfs/kubo:latest
@@ -78,18 +137,64 @@ services:
     volumes:
       - ./data/ipfs:/data/ipfs
       - ./swarm.key:/data/ipfs/swarm.key:ro
-    command: daemon --migrate=true
+    command: daemon --migrate=true --enable-pubsub-experiment
 ```
 
 ---
 
-## 🚀 Launch the Stack
+## 🚀 4. Launch the Stack
 
-From inside `health-stack-os/`:
+From inside the `health-stack-os/` folder:
 
 ```bash
+docker-compose down -v  # ensures fresh start
 docker-compose up -d
 ```
+
+---
+
+## ✅ 5. Verify Besu Account Is Active
+
+Run this to confirm your account is available:
+
+```bash
+curl -X POST http://localhost:8545 \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","method":"eth_accounts","params":[],"id":1}'
+```
+
+Expected result:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": ["0x0000000000000000000000000000000000000001"]
+}
+```
+
+You now have a **fully synced dev chain** with a funded account and a **private IPFS daemon** ready to go.
+
+---
+
+## 🧠 Next Steps
+
+* Connect your **Node.js** backend to:
+
+  * Ethereum RPC (`localhost:8545`)
+  * IPFS API (`localhost:5001`)
+* Use the preloaded address to deploy and interact with smart contracts
+* Use IPFS to publish and retrieve CIDs
+
+---
+
+Would you like:
+
+* a sample **Node.js script** to deploy a contract and publish to IPFS?
+* or a ready-to-use **frontend template** connected to this backend?
+
+Let me know how you'd like to build from here.
+
 
 ---
 
@@ -128,8 +233,6 @@ This ensures:
 - No public bootstrap peers
 - No local peer discovery
 - No AutoTLS or public routing
-
-Absolutely, Petrus—here’s the polished section you can drop straight into your Health Stack OS documentation. I’ve made sure it’s clean, reusable, and doesn’t rely on hardcoded CIDs:
 
 ---
 

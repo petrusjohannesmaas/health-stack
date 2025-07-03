@@ -4,73 +4,79 @@ title: 'Overview'
 weight: 1
 ---
 
-- 🏥 No existing hospital systems (paper or digital)
-- 🧑‍⚕️ No established staff—nurses, admins, or clinicians will be onboarded
-- 🧰 No physical infrastructure yet defined beyond a facility shell (or basic layout)
-- ⚙️ Our software must guide, train, and enforce best practices from day one
+## 🧭 Philosophy & Principles
 
-So instead of just software, I'm building a **hospital-in-a-box** platform that boots up a fully functional health facility—digitally and operationally.
+Health Stack OS is built on the premise that **ethical care, transparent funding, and digital sovereignty** can co-exist. Rooted in the belief that communities deserve accountable systems, the platform prioritizes:
 
-
-### **Phase 0: Blueprint**
-Define what kind of facility we’re even creating:
-
-- [1. Philosophy & Principles](/docs/philosophy_and_principles.md)
-- [2. Core Health Stack OS Modules](/docs/core_modules.md)
-- [3. Patient States & Intake Flow](/docs/patient_states_and_intake_flow.md)
-- [4. Roles & Access](/docs/roles_and_access.md)
+- **Transparency by Design** – enabling donors, staff, and patients to understand and trust every decision
+- **Modular Architecture** – allowing for scalable adoption without sacrificing local adaptability
+- **Simplicity First** – solving the right problems with the smallest, clearest steps
+- **Off-chain First** – operational speed and patient safety come before decentralization
+- **Selective Decentralization** – blockchain is used only where trustless execution creates tangible value
 
 ---
 
-### **Phase 1: Digital Operating System Core**
-Create the system that will guide and train people from day one:
-- [5. Development Setup](/docs/development_setup.md)
-- **Identity System**: Develop QR based identity system
-- **Develop Dashboards**: Build core modules interfaces and implement access policies
-- **Onboarding Content**: Walks staff through first login and explains role functions
-- **Standard operating workflows**: Step-by-step task flows for common hospital scenarios (triage, vitals collection, medication administration, etc.)
+## 🧍‍♀️ Humans
+
+At its core, Health Stack OS is about **people**. The system is designed around the realities and responsibilities of:
+
+- **Patients** – whose care, dignity, and outcomes drive every design decision  
+- **Frontline Staff** – clinicians, nurses, and coordinators who carry the weight of healthcare  
+- **Administrators** – who facilitate access, manage resources, and ensure continuity  
+- **Donors & Partners** – whose resources fuel mission-critical efforts and need traceable impact  
+- **System Stewards** – developers and operators ensuring ethical, secure implementation  
+
+Every module is designed to respect time, reduce friction, and reinforce **human accountability**—not replace it.
 
 ---
 
-### **Phase 2: Staff Lifecycle & Scheduling**
-Establish people management before patients arrive:
-- Staff registration (name, role, qualifications, shift availability)
-- Role-based access and checklists (e.g. “pharmacist on duty” unlocks medication dispensing)
-- Basic shift planning tool
+## 🔁 Intake to Discharge Flow
+
+Health Stack OS models the full lifecycle of a patient visit as a structured state machine:
+
+```plaintext
+Intake → Registered → Triage → Admitted → Under Care → Ready for Discharge → Discharged
+                                 ↓          ↓                   ↓                ↓
+                            Referred   Escalated         Delayed Discharge    End
+```
+
+This flow supports:
+- Clinician triage and escalation
+- Seamless discharge planning
+- Referrals and transfers across facilities
+- Audit-ready transitions tied to roles and timestamps
+
+It’s the heartbeat of the system—both operationally and ethically.
 
 ---
 
-### **Phase 3: Patient Registration & Encounter Logging**
-Enable patient-facing functionality:
-- Patient intake interface (walk-ins or referred)
-- Visit logs: clinical notes, triage results, vitals
-- Smart nudges for incomplete data capture
+## 🧱 Off-Chain Architecture
+
+To remain fast, user-friendly, and privacy-conscious, core logic lives off-chain:
+
+- **Identity & Access Control** – role-based permissions for staff and admins
+- **Patient Journey Engine** – governs valid state transitions and logs the audit trail
+- **Triage, Admissions & Monitoring Modules** – structured health records, care updates, and escalation triggers
+- **Referral & Discharge Workflows** – referral coordination and discharge summaries
+- **Task Assignments & Notifications** – dashboard alerts and role-based responsibilities
+- **Document & Form Management** – uploads, structured forms, and auto-generated reports
+
+By centralizing this logic in a modular backend, the system remains **extensible and sovereign**—able to work offline or across diverse settings.
 
 ---
 
-### **Phase 4: Resource & Inventory Setup**
-Before treatments begin, supplies must exist:
-- Initial stock loading with barcode scanning
-- Room/bed assignment system
-- Daily usage logging with contextual feedback (e.g. low gloves for emergency care)
+## 🔗 Blockchain Architecture
+
+Rather than forcing decentralization, Health Stack OS uses blockchain where it **adds real value**:
+
+- **Minimal Vault Contract** – accepts donor funds and allows on-chain disbursements when off-chain milestones are verified
+- **Hospital Wallet Registry** – tracks verified facility addresses eligible for funding
+- **Disbursement Triggers** – called by the off-chain system or designated overseers to release funds for validated achievements
+- *(Optional)* **Event Anchoring** – hashed records of transitions for immutable proofs (if required)
+
+This "thin layer" approach allows:
+- Credible public transparency
+- Trustless fund distribution tied to care outcomes
+- Future DAO or staking integrations without architectural lock-in
 
 ---
-
-### **Phase 5: Real-Time Communication & Alerts**
-Essential for high-stakes coordination:
-- Broadcast alerts (e.g. code blue)
-- Patient-linked task communication
-- Emergency contact protocols (fire, security, ambulance coordination)
-
----
-
-## 🧭 Strategic Outcome
-
-By the end of this rollout, we’ll have:
-- A guided digital framework for new staff to onboard and deliver care effectively  
-- The foundation for clinical audits, analytics, and expansion  
-- A blueprint that could replicate this hospital model elsewhere—franchise-style or NGO-deployable  
-
----
-
-Want to dive into a naming convention for this “hospital OS”? Or should we start building out the schemas for staff, roles, and patient flows as a next step?
